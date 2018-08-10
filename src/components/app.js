@@ -3,8 +3,10 @@ import React, { Component } from 'react';
 import TodoList from './todo_list'
 import AddItem from './add_item';
 import listData from '../data/todo';
+import axios from 'axios';
 
-
+const BASE_URL = 'http://api.reactprototypes.com';
+const API_KEY = '?key=c618_martin';
 
 class App extends Component {
     constructor(props) {
@@ -19,22 +21,43 @@ class App extends Component {
         this.getListData();
     }
 
-    addItem(item) {
-        item._id = new Date().getTime();
-        this.setState({
-            items: [item, ...this.state.items]
-        });
+    async addItem(item) {
+        try {
+            if (!item.title) {
+                throw new Error('Missing Title');
+            }
+
+            if (!item.details) {
+                throw new Error('Missing Details');
+            }
+            await axios.post(`${BASE_URL}/todos${API_KEY}`, item);
+            this.getListData();
+
+        } catch (err) {
+            console.log('errrrrorrrrrr', err.message);
+        }
     }
 
-    getListData() {
-        //this is where you would make the server call for your data
+    // getListData() {
+    //     axios.get(`${BASE_URL}/todos${API_KEY}`).then((resp) => {
+    //         this.setState({
+    //             items: resp.data.todos
+    //         });
+    //     }).catch((err) => {
+    //         console.log('error!?!?!', err.message);
+    //     });
+    // }
+
+    async getListData() {
+        const resp = await axios.get(`${BASE_URL}/todos${API_KEY}`);
+
         this.setState({
-            items: listData
+            items: resp.data.todos
         });
     }
 
     render() {
-        console.log('app state:', this.state);
+        //console.log('app state:', this.state);
         return (
             <div className="container">
                 <h1 className="center">TO DO LIST</h1>
