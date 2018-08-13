@@ -19,6 +19,13 @@ class ItemDetails extends Component {
         });
 
     }
+
+    async handleDelete() {
+        await this.props.delete(this.state.itemDetails._id);
+        this.props.history.push('/');
+    }
+
+
     render() {
         const { itemDetails } = this.state;
         console.log('item details: ', itemDetails);
@@ -31,6 +38,14 @@ class ItemDetails extends Component {
                     </div>
                 </div>
                 <h4><em>Title: </em> {itemDetails.title}</h4>
+                <div className="row">
+                    <div className="col s6 center">
+                        <button className="btn blue darken-2" >TOGGLE COMPLETE</button>
+                    </div>
+                    <div className="col s6 center" >
+                        <button className="btn red darken-2" onClick={this.handleDelete.bind(this)}>DELETE</button>
+                    </div>
+                </div>
             </div>
         );
     }
