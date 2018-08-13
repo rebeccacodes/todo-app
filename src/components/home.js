@@ -3,8 +3,12 @@ import TodoList from './todo_list'
 import AddItem from './add_item';
 
 class Home extends Component {
+
+    componentDidMount() {
+        this.props.getList();
+    }
+
     render() {
-        console.log('PROPS:', this.props);
         const { add, list } = this.props;
         return (
             <div>

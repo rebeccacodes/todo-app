@@ -18,10 +18,6 @@ class App extends Component {
         };
     }
 
-    componentDidMount() {
-        this.getListData();
-    }
-
     async addItem(item) {
         try {
             if (!item.title) {
@@ -58,12 +54,11 @@ class App extends Component {
     }
 
     render() {
-        console.log('to do list:', this.state.items);
         return (
             <div className="container">
                 <Route exact
                     path='/'
-                    render={(props) => { return <Home add={this.addItem.bind(this)} list={this.state.items} {...props} /> }} />
+                    render={(props) => { return <Home add={this.addItem.bind(this)} getList={this.getListData.bind(this)} list={this.state.items} {...props} /> }} />
             </div>
         );
     }
