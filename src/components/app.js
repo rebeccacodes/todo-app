@@ -45,6 +45,28 @@ class App extends Component {
     //     });
     // }
 
+    async deleteItem(id) {
+        const { api: { BASE_URL, API_KEY } } = config;
+
+        try {
+            const resp = await axios.delete(`${BASE_URL}/todos/${id + API_KEY}`);
+            //console.log('Delete resp:', resp);
+        } catch (err) {
+            console.log('delete error:', err.message);
+        }
+    }
+
+    async toggleItemComplete(id) {
+        const { api: { BASE_URL, API_KEY } } = config;
+
+        try {
+            const resp = await axios.put(`${BASE_URL}/todos/${id + API_KEY}`);
+            return resp.data.todo;
+        } catch (err) {
+            console.log('toggle error:', err.message);
+        }
+    }
+
     async getListData() {
         const { api: { BASE_URL, API_KEY } } = config;
         const resp = await axios.get(`${BASE_URL}/todos${API_KEY}`);
@@ -61,7 +83,13 @@ class App extends Component {
                     <Route exact
                         path='/'
                         render={(props) => { return <Home add={this.addItem.bind(this)} getList={this.getListData.bind(this)} list={this.state.items} {...props} /> }} />
-                    <Route path="/item-details/:item_id" component={ItemDetails} />
+
+
+                    <Route path="/item-details/:item_id"
+                        render={routeProps => {
+                            return <ItemDetails toggleComplete={this.toggleItemComplete.bind(this)} delete={this.deleteItem.bind(this)} {...routeProps} />
+                        }}
+                    />
                     <Route component={NotFound} />
 
                 </Switch>
