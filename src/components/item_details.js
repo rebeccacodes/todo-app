@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import config from '../config';
 import axios from 'axios';
 
-
 class ItemDetails extends Component {
     state = {
         itemDetails: {}
@@ -25,10 +24,15 @@ class ItemDetails extends Component {
         this.props.history.push('/');
     }
 
+    async handleToggleComplete() {
+        const todoItem = await this.props.toggleComplete(this.state.itemDetails._id);
+        console.log('item details toggle complete response: ', todoItem);
+        this.setState({ itemDetails: todoItem });
+    }
 
     render() {
         const { itemDetails } = this.state;
-        console.log('item details: ', itemDetails);
+        // console.log('item details: ', itemDetails);
         return (
             <div>
                 <h1 className="center">ITEM DETAILS</h1>
@@ -38,9 +42,17 @@ class ItemDetails extends Component {
                     </div>
                 </div>
                 <h4><em>Title: </em> {itemDetails.title}</h4>
+
+                <h5>
+                    {itemDetails.complete
+                        ? 'Item Complete'
+                        : 'Item is not yet complete'
+                    }
+                </h5>
+
                 <div className="row">
                     <div className="col s6 center">
-                        <button className="btn blue darken-2" >TOGGLE COMPLETE</button>
+                        <button className="btn blue darken-2" onClick={this.handleToggleComplete.bind(this)} >TOGGLE COMPLETE</button>
                     </div>
                     <div className="col s6 center" >
                         <button className="btn red darken-2" onClick={this.handleDelete.bind(this)}>DELETE</button>
