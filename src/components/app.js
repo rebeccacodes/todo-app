@@ -35,22 +35,12 @@ class App extends Component {
         }
     }
 
-    // getListData() {
-    //     axios.get(`${BASE_URL}/todos${API_KEY}`).then((resp) => {
-    //         this.setState({
-    //             items: resp.data.todos
-    //         });
-    //     }).catch((err) => {
-    //         console.log('error!?!?!', err.message);
-    //     });
-    // }
-
     async deleteItem(id) {
         const { api: { BASE_URL, API_KEY } } = config;
 
         try {
             const resp = await axios.delete(`${BASE_URL}/todos/${id + API_KEY}`);
-            //console.log('Delete resp:', resp);
+            console.log('Delete resp:', resp);
         } catch (err) {
             console.log('delete error:', err.message);
         }
@@ -61,6 +51,7 @@ class App extends Component {
 
         try {
             const resp = await axios.put(`${BASE_URL}/todos/${id + API_KEY}`);
+            console.log("resp.data.todo :", resp.data.todo);
             return resp.data.todo;
         } catch (err) {
             console.log('toggle error:', err.message);
@@ -70,7 +61,6 @@ class App extends Component {
     async getListData() {
         const { api: { BASE_URL, API_KEY } } = config;
         const resp = await axios.get(`${BASE_URL}/todos${API_KEY}`);
-
         this.setState({
             items: resp.data.todos
         });
@@ -82,11 +72,15 @@ class App extends Component {
                 <Switch>
                     <Route exact
                         path='/'
-                        render={(props) => { return <Home add={this.addItem.bind(this)} getList={this.getListData.bind(this)} list={this.state.items} {...props} /> }} />
+                        render={(props) => {
+                            // console.log('props:', props);
+                            return <Home add={this.addItem.bind(this)} getList={this.getListData.bind(this)} list={this.state.items} {...props} />
+                        }} />
 
 
                     <Route path="/item-details/:item_id"
                         render={routeProps => {
+                            // console.log('route props:', routeProps);
                             return <ItemDetails toggleComplete={this.toggleItemComplete.bind(this)} delete={this.deleteItem.bind(this)} {...routeProps} />
                         }}
                     />

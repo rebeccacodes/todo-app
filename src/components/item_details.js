@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import config from '../config';
 import axios from 'axios';
+import './item-details.css';
 
 class ItemDetails extends Component {
     state = {
@@ -32,7 +33,10 @@ class ItemDetails extends Component {
 
     render() {
         const { itemDetails } = this.state;
-        // console.log('item details: ', itemDetails);
+        const timestamp = parseInt(itemDetails.created)
+        const date = new Date(timestamp);
+        const finalDate = date.toLocaleDateString();
+
         return (
             <div>
                 <h1 className="center">ITEM DETAILS</h1>
@@ -41,23 +45,27 @@ class ItemDetails extends Component {
                         <Link to='/' className='btn purple darken-2'>Back to List</Link>
                     </div>
                 </div>
-                <h4><em>Title: </em> {itemDetails.title}</h4>
+                <div>
+                    <div>
+                        <h4><b>{itemDetails.title}</b></h4>
+                    </div>
+                    <div>
+                        {!itemDetails.complete ?
+                            <button className="btn pink lighten-1" onClick={this.handleToggleComplete.bind(this)} >COMPLETE TASK</button> :
+                            <button className="btn pink darken-4" onClick={this.handleToggleComplete.bind(this)} >UNDO COMPLETE</button>}
 
-                <h5>
+                        <button className="btn purple darken-3 test" onClick={this.handleDelete.bind(this)}>DELETE</button>
+                    </div></div>
+                <h5 className="card-panel"><b>Details: </b>{itemDetails.details}</h5>
+
+                <h5 className="card-panel"><b>Item Status: </b>
                     {itemDetails.complete
-                        ? 'Item Complete'
-                        : 'Item is not yet complete'
+                        ? <span className="teal lighten-2">Item Complete</span>
+                        : <span className="orange lighten-2">Item is not yet complete</span>
                     }
                 </h5>
+                <h5 className="card-panel"><b>Date Added: </b>{finalDate}</h5>
 
-                <div className="row">
-                    <div className="col s6 center">
-                        <button className="btn blue darken-2" onClick={this.handleToggleComplete.bind(this)} >TOGGLE COMPLETE</button>
-                    </div>
-                    <div className="col s6 center" >
-                        <button className="btn red darken-2" onClick={this.handleDelete.bind(this)}>DELETE</button>
-                    </div>
-                </div>
             </div>
         );
     }
