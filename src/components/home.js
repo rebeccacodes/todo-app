@@ -9,12 +9,14 @@ class Home extends Component {
     }
 
     render() {
+
         const { add, list } = this.props;
+
         return (
             <div>
                 <h1 className="center">TO DO LIST</h1>
                 <AddItem add={add} />
-                <TodoList list={list} />
+                <TodoList list={list} delete={this.props.delete} getList={this.props.getList} />
             </div>
         );
     }

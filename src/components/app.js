@@ -51,7 +51,7 @@ class App extends Component {
 
         try {
             const resp = await axios.put(`${BASE_URL}/todos/${id + API_KEY}`);
-            console.log("resp.data.todo :", resp.data.todo);
+            // console.log("resp.data.todo :", resp.data.todo);
             return resp.data.todo;
         } catch (err) {
             console.log('toggle error:', err.message);
@@ -74,7 +74,7 @@ class App extends Component {
                         path='/'
                         render={(props) => {
                             // console.log('props:', props);
-                            return <Home add={this.addItem.bind(this)} getList={this.getListData.bind(this)} list={this.state.items} {...props} />
+                            return <Home add={this.addItem.bind(this)} getList={this.getListData.bind(this)} list={this.state.items} delete={this.deleteItem.bind(this)} {...props} />
                         }} />
 
 

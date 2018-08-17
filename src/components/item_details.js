@@ -27,7 +27,6 @@ class ItemDetails extends Component {
 
     async handleToggleComplete() {
         const todoItem = await this.props.toggleComplete(this.state.itemDetails._id);
-        console.log('item details toggle complete response: ', todoItem);
         this.setState({ itemDetails: todoItem });
     }
 

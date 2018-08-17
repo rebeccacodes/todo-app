@@ -4,7 +4,7 @@ import TodoItem from './todo_item';
 class ToDoList extends Component {
     render() {
         const listElements = this.props.list.map((item) => {
-            return <TodoItem key={item._id} id={item._id} title={item.title} complete={item.complete} />;
+            return <TodoItem key={item._id} id={item._id} title={item.title} complete={item.complete} delete={this.props.delete} getList={this.props.getList} />;
 
         });
         return (
